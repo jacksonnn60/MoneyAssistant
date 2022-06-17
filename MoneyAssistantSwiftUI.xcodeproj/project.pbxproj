@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE2DD8F4285CC23D00023116 /* EditThreadContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2DD8F3285CC23D00023116 /* EditThreadContentView.swift */; };
 		EE4EF34E285B3572004D5192 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EE4EF34C285B3572004D5192 /* DataModel.xcdatamodeld */; };
 		EE4EF350285B515C004D5192 /* MoneyThreadCDController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4EF34F285B515C004D5192 /* MoneyThreadCDController.swift */; };
 		EE4EF354285B9F92004D5192 /* Keyboard+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4EF353285B9F92004D5192 /* Keyboard+Extensions.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EE2DD8F3285CC23D00023116 /* EditThreadContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditThreadContentView.swift; sourceTree = "<group>"; };
 		EE4EF34D285B3572004D5192 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		EE4EF34F285B515C004D5192 /* MoneyThreadCDController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyThreadCDController.swift; sourceTree = "<group>"; };
 		EE4EF353285B9F92004D5192 /* Keyboard+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keyboard+Extensions.swift"; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 		EE7E12A428586BC2009C2980 /* MoneyAssistantSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				EE2DD8F3285CC23D00023116 /* EditThreadContentView.swift */,
 				EE4EF34C285B3572004D5192 /* DataModel.xcdatamodeld */,
 				EE7E12A928586BC3009C2980 /* Assets.xcassets */,
 				EE4EF356285BB0A6004D5192 /* LaunchScreen.storyboard */,
@@ -215,6 +218,7 @@
 				EE7E12C62858CA14009C2980 /* MoneyThreadReason.swift in Sources */,
 				EE7E12BE2858738F009C2980 /* MoneyThreadCellView.swift in Sources */,
 				EE4EF350285B515C004D5192 /* MoneyThreadCDController.swift in Sources */,
+				EE2DD8F4285CC23D00023116 /* EditThreadContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

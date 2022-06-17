@@ -6,6 +6,12 @@
 //
 
 import SwiftUI
+import AudioToolbox
+
+enum MoneyAlertEventType {
+    case spentButtonDidTap
+    case earnButtonDidTap
+}
 
 struct MoneyThreadAlert: View {
     @Binding var isPresented: Bool
@@ -13,8 +19,7 @@ struct MoneyThreadAlert: View {
     @Binding var threadAmount: String
     @Binding var threadDescription: String
     
-    var spentButtonDidTap: EmptyClosure?
-    var earnButtonDidTap: EmptyClosure?
+    var cellAction: ((MoneyAlertEventType) -> ())?
     
     private var dataProvidedCorrectly: Bool {
         !(threadAmount + threadTitle).isEmpty
@@ -72,8 +77,12 @@ struct MoneyThreadAlert: View {
                     HStack {
                         makeAlertButton(title: "Spent", alertProxy: proxy) {
                             if dataProvidedCorrectly {
-                                spentButtonDidTap?()
+                                cellAction?(.spentButtonDidTap)
                                 
+                                hideKeyboard()
+                                
+                                AudioServicesPlaySystemSound(SystemSound.train.rawValue)
+                                                                
                                 withAnimation(.customSpring) {
                                     isPresented.toggle()
                                 }
@@ -82,8 +91,10 @@ struct MoneyThreadAlert: View {
                         
                         makeAlertButton(title: "Earn", alertProxy: proxy) {
                             if dataProvidedCorrectly {
-                                earnButtonDidTap?()
+                                cellAction?(.earnButtonDidTap)
                                 
+                                hideKeyboard()
+                                                                
                                 withAnimation(.customSpring) {
                                     isPresented.toggle()
                                 }
@@ -139,6 +150,5 @@ private extension MoneyThreadAlert {
 struct MainScreen_Previews: PreviewProvider {
     static var previews: some View {
         MoneyThreadsContentView(viewModel: MainScreenViewModel(moneyThreadCDController: MoneyThreadCDController()))
-        
     }
 }

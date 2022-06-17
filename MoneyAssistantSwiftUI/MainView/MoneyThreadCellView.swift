@@ -6,10 +6,18 @@
 //
 
 import SwiftUI
+import AudioToolbox
+
+enum MoneyCellEventType {
+    case deleteDidSwiped
+    case editDidSwiped
+    case cellDidTap
+}
 
 struct MoneyThreadCellView: View {
     var moneyThread: MoneyThread
-    var moneyThreadWasDeleted: EmptyClosure?
+    
+    var cellAction: ((MoneyCellEventType) -> ())?
     
     private var reason: MoneyThreadReason {
         MoneyThreadReason(rawValue: moneyThread.reason ?? "moneyEarned") ?? .moneyEarned
@@ -43,37 +51,43 @@ struct MoneyThreadCellView: View {
                         .foregroundColor(.secondary)
                 }
             }
-            .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                Button {
-                    moneyThreadWasDeleted?()
-                } label: {
-                    Label("Edit", systemImage: "trash.fill")
-                }
-                .tint(.red)
-            }
-            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                Button {
-                    moneyThreadWasDeleted?()
-                } label: {
-                    Label("Delete", systemImage: "trash.fill")
-                }
-                .tint(.red)
-            }
             
             if let info = moneyThread.info {
                 Text(info)
+                    .font(.footnote.italic())
+                    .multilineTextAlignment(.center)
             }
             
+        }
+        .onTapGesture {
+            cellAction?(.cellDidTap)
+        }
+        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+            Button {
+                cellAction?(.editDidSwiped)
+                
+            } label: {
+                Label("Edit", systemImage: "pencil")
+            }
+            .tint(.gray)
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            Button {
+                cellAction?(.deleteDidSwiped)
+                
+                AudioServicesPlaySystemSound(SystemSound.delete.rawValue)
+            } label: {
+                Label("Delete", systemImage: "trash.fill")
+            }
+            .tint(.red)
         }
     }
 }
 
-//struct MainScreenListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainScreenListView(moneyThread: MoneyThread(title: "Work", amount: 1500, reason: .moneyEarned))
-//
-//            .previewLayout(
-//                PreviewLayout.sizeThatFits
-//            )
-//    }
-//}
+enum SystemSound: UInt32 {
+    case whistle = 1016
+    case buttonPress = 1421
+    case train = 1023
+    case delete = 1018
+    case haptic = 1102
+}

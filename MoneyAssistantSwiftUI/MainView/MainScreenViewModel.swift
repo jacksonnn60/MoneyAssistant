@@ -10,6 +10,10 @@ import Combine
 
 protocol IMainScreenViewModel: ObservableObject {
     var moneyThreads: [MoneyThread] { get }
+    var selectedThread: MoneyThread? { set get }
+    
+    var totalSpent: Double { get }
+    var totalEarned: Double { get }
         
     func delete(_ moneyThread: MoneyThread)
     func saveThread(_ reason: MoneyThreadReason)
@@ -31,6 +35,9 @@ final class MainScreenViewModel: IMainScreenViewModel {
         self.moneyThreadCDController.$moneyThreads.sink { moneyThreads in
             DispatchQueue.main.async {
                 self.moneyThreads = moneyThreads
+                
+                self.totalSpent = self.calculate(.moneySpent, in: moneyThreads)
+                self.totalEarned = self.calculate(.moneyEarned, in: moneyThreads)
             }
             
         // store sink in bag to clear in future.
@@ -47,7 +54,12 @@ final class MainScreenViewModel: IMainScreenViewModel {
     @Published var threadTitle: String = ""
     @Published var threadAmount: String = ""
     @Published var threadDescription: String = ""
+    
     @Published var moneyThreads: [MoneyThread] = []
+    @Published var selectedThread: MoneyThread?
+    
+    @Published var totalSpent: Double = 0.0
+    @Published var totalEarned: Double = 0.0
     
     // MARK: - IMainScreenViewModel
     
@@ -64,5 +76,12 @@ final class MainScreenViewModel: IMainScreenViewModel {
     
     func delete(_ moneyThread: MoneyThread) {
         moneyThreadCDController.delete(moneyThread)
+    }
+}
+
+
+private extension MainScreenViewModel {
+    func calculate(_ threadReason: MoneyThreadReason, in moneyThreads: [MoneyThread]) -> Double {
+        moneyThreads.reduce(into: 0) { $0 += $1.reason == threadReason.rawValue ? $1.amount : 0.0 }
     }
 }
