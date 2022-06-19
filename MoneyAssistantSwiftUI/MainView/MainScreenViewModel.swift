@@ -8,6 +8,11 @@
 import SwiftUI
 import Combine
 
+enum MoneyThreadItem {
+    case moneyThread(MoneyThread)
+    case dateSeparator
+}
+
 protocol IMainScreenViewModel: ObservableObject {
     var moneyThreads: [MoneyThread] { get }
     var selectedThread: MoneyThread? { set get }
